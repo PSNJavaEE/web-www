@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forwork.web.www.modules.information.dao.TechPolicyDao">
+
+    <select id="get" resultType="com.forwork.web.www.modules.information.entity.TechPolicy">
+		select *
+		from cm_i_tech_policy where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.forwork.web.www.modules.information.entity.TechPolicy">
+        select *
+        from cm_i_tech_policy
+        <where>
+            status = 0
+            <if test="title != null and title != ''"> and title like #{title} </if>
+            <if test="policyType != null and policyType != ''"> and policy_type = #{policyType} </if>
+        </where>
+        <choose>
+            <when test="addTime != null and addTime.trim() != ''">
+                order by ${addTime} desc
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="rowStart != null and pageSize != null">
+            limit ${rowStart}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="getLastOne" resultType="com.forwork.web.www.modules.information.entity.TechPolicy">
+        SELECT * FROM cm_i_tech_policy
+        <where>
+            status = 0
+            and id &lt; #{value}
+            ORDER BY id DESC LIMIT 1;
+        </where>
+    </select>
+
+    <select id="getNextOne" resultType="com.forwork.web.www.modules.information.entity.TechPolicy">
+        SELECT * FROM cm_i_tech_policy
+        <where>
+            status = 0
+            and id = #{value}
+            ORDER BY id DESC LIMIT 1;
+        </where>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from cm_i_tech_policy
+        <where>
+            status = 1
+            <if test="title != null and state != ''"> and title like #{title} </if>
+            <if test="policyType != null and policyType != ''"> and policy_type = #{policyType} </if>
+        </where>
+    </select>
+</mapper>

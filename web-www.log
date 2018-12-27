@@ -1,0 +1,24 @@
+2018-12-12 15:21:55.874  INFO 12824 --- [main] c.f.web.www.WebWwwApplicationTests       : Starting WebWwwApplicationTests on DESKTOP-3DPPIKH with PID 12824 (started by forwork in D:\Idea Workspace\BackstageSystem\web-www)
+2018-12-12 15:21:55.885 DEBUG 12824 --- [main] c.f.web.www.WebWwwApplicationTests       : Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-12 15:21:55.891  INFO 12824 --- [main] c.f.web.www.WebWwwApplicationTests       : The following profiles are active: dev
+2018-12-12 15:22:04.336  INFO 12824 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2018-12-12 15:22:05.106  WARN 12824 --- [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2018-12-12 15:22:05.371  INFO 12824 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: URL [file:/app/forwork/web-www/web-static/index.html]
+2018-12-12 15:22:06.316  INFO 12824 --- [main] c.f.web.www.WebWwwApplicationTests       : Started WebWwwApplicationTests in 12.732 seconds (JVM running for 17.18)
+2018-12-12 15:22:06.992 DEBUG 12824 --- [main] c.f.web.www.WebWwwApplicationTests       : 这是debug日志
+2018-12-12 15:22:06.993  INFO 12824 --- [main] c.f.web.www.WebWwwApplicationTests       : 这是info日志
+2018-12-12 15:22:06.995  WARN 12824 --- [main] c.f.web.www.WebWwwApplicationTests       : 这是warn日志
+2018-12-12 15:22:06.996 ERROR 12824 --- [main] c.f.web.www.WebWwwApplicationTests       : 这是error日志
+2018-12-12 15:22:07.022  INFO 12824 --- [Thread-3] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2018-12-12 15:38:27.248  INFO 13008 --- [main] c.f.web.www.WebWwwApplicationTests       : Starting WebWwwApplicationTests on DESKTOP-3DPPIKH with PID 13008 (started by forwork in D:\Idea Workspace\BackstageSystem\web-www)
+2018-12-12 15:38:27.252 DEBUG 13008 --- [main] c.f.web.www.WebWwwApplicationTests       : Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-12 15:38:27.261  INFO 13008 --- [main] c.f.web.www.WebWwwApplicationTests       : The following profiles are active: dev
+2018-12-12 15:38:35.993  INFO 13008 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2018-12-12 15:38:36.712  WARN 13008 --- [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2018-12-12 15:38:36.960  INFO 13008 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: URL [file:D:/app/forwork/web-www/web-static/index.html]
+2018-12-12 15:38:37.975  INFO 13008 --- [main] c.f.web.www.WebWwwApplicationTests       : Started WebWwwApplicationTests in 12.956 seconds (JVM running for 16.285)
+2018-12-12 15:38:38.741 DEBUG 13008 --- [main] c.f.web.www.WebWwwApplicationTests       : 这是debug日志
+2018-12-12 15:38:38.743  INFO 13008 --- [main] c.f.web.www.WebWwwApplicationTests       : 这是info日志
+2018-12-12 15:38:38.744  WARN 13008 --- [main] c.f.web.www.WebWwwApplicationTests       : 这是warn日志
+2018-12-12 15:38:38.745 ERROR 13008 --- [main] c.f.web.www.WebWwwApplicationTests       : 这是error日志
+2018-12-12 15:38:38.774  INFO 13008 --- [Thread-3] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'

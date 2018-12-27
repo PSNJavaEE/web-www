@@ -1,0 +1,27 @@
+server:
+  port: 9001   #测试、生产地址
+  #port: 80  #自测，如果在本地的服务位置有9001端口，访问静态路径会以9001端口服务中配置的默认路径为主。
+
+spring:
+  profiles:
+    active: loc   #使用 spring.profiles.active 参数,搭配@Profile注解,可以实现不同环境下（开发、测试、生产）配置参数的切换
+    #active: dev   #使用 spring.profiles.active 参数,搭配@Profile注解,可以实现不同环境下（开发、测试、生产）配置参数的切换
+    #active: pro   #使用 spring.profiles.active 参数,搭配@Profile注解,可以实现不同环境下（开发、测试、生产）配置参数的切换
+#  servlet:
+#    multipart:
+#      enabled: false             #不加这个下面报错。
+#      max-file-size: 10Mb        #单个文件大小
+#      max-request-size: 10Mb    #设置总上传的数据大小
+  jackson:
+      time-zone: GMT+8
+      date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    static-path-pattern: /**     #结合以下resource配置静态资源位置。
+  resources:
+    static-locations: file:D:/app/forwork/web-www/web-static/   #本地路径
+    #static-locations: file:/app/forwork/web-www/web-static/   #测试、生产路径
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mybatis/**/*Mapper.xml
+  typeAliasesPackage: com.forwork.web.www.**.entity

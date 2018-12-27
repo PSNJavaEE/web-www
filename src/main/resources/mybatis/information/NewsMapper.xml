@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forwork.web.www.modules.information.dao.NewsDao">
+
+    <select id="get" resultType="com.forwork.web.www.modules.information.entity.News">
+		select
+		`id`,`title`,`url`,`news_type`,`category_id`,`category_name`,`category_image`,`image`,`commend_state`,`display_state`,`state`,`description`,`content`,`keywords`,`create_time`,`update_time`,`browses`,`likes`,`comments`
+		from cm_i_news where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.forwork.web.www.modules.information.entity.News">
+        select
+        n.`id`,n.`title`,n.`url`,n.`news_type`,n.`category_id`,n.`category_image`,n.`image`,n.`commend_state`,n.`display_state`,n.`state`,n.`description`,n.`content`,n.`keywords`,n.`create_time`,n.`update_time`,n.`browses`,n.`likes`,n.`comments`,nc.`name` AS category_name,nc.`image`AS category_image
+        from cm_i_news n
+        left join cm_i_news_category nc on n.category_id = nc.id
+        <where>
+            n.state = 1
+            <if test="title != null and title != ''"> and n.title like #{title} </if>
+            <if test="categoryId != null and categoryId != 0"> and n.category_id = #{categoryId} </if>
+            <if test="commendState != null and commendState != 0"> and n.commend_state = #{commendState} </if>
+        </where>
+        <choose>
+            <when test="createTime != null and createTime.trim() != ''">
+                order by ${createTime} desc
+            </when>
+            <when test="BROWSES != null and BROWSES.trim() != ''">
+                order by ${BROWSES} desc
+            </when>
+            <when test="LIKES != null and LIKES.trim() != ''">
+                order by ${LIKES} desc
+            </when>
+            <when test="SCORE != null and SCORE.trim() != ''">
+                order by ${SCORE} desc
+            </when>
+            <otherwise>
+                order by n.id desc
+            </otherwise>
+        </choose>
+        <if test="rowStart != null and pageSize != null">
+            limit ${rowStart}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="getLastOne" resultType="com.forwork.web.www.modules.information.entity.News">
+        SELECT * FROM cm_i_news
+        <where>
+            state = 1
+            and id &lt; #{value}
+            ORDER BY id DESC LIMIT 1;
+        </where>
+    </select>
+
+    <select id="getNextOne" resultType="com.forwork.web.www.modules.information.entity.News">
+        SELECT * FROM cm_i_news
+        <where>
+            state = 1
+            and id > #{value}
+            ORDER BY id DESC LIMIT 1;
+        </where>
+    </select>
+
+
+    <select id="count" resultType="int">
+        select count(*) from cm_i_news n
+        LEFT JOIN cm_i_news_category nc ON n.category_id = nc.ID
+        <where>
+            n.state = 1
+            <if test="title != null and state != ''"> and n.title like #{title} </if>
+            <if test="categoryId != null and categoryId != 0"> and n.category_id = #{categoryId} </if>
+            <if test="commendState != null and commendState != 0"> and n.commend_state = #{commendState} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.forwork.web.www.modules.information.entity.News"
+            useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `cm_i_news` (`id`,`title`,`url`,`news_type`,`description`,`category_id`,`category_name`,`image`,`content`,`create_time`,`update_time`,`commend_state`,display_state,`state`,`browses`,`likes`,`comments`) VALUES (null,#{title},#{url},#{newsType},#{description},#{categoryId},#{categoryName},#{image},#{content},now(),now(),1,1,1,0,0,0)
+	</insert>
+
+    <update id="update" parameterType="com.forwork.web.www.modules.information.entity.News">
+        UPDATE cm_i_news
+        <set>
+            <if test="title != null">`title` = #{title}, </if>
+            <if test="url != null">`url` = #{url}, </if>
+            <if test="newsType != null">`news_type` = #{newsType}, </if>
+            <if test="description != null">`description` = #{description}, </if>
+            <if test="categoryId != null">`category_id` = #{categoryId}, </if>
+            <if test="categoryName != null">`category_name` = #{categoryName}, </if>
+            <if test="image != null">`image` = #{image}, </if>
+            <if test="content != null">`content` = #{content}, </if>
+            <if test="commendState != null">`commend_state` = #{commendState}, </if>
+            <if test="displayState != null">`display_state` = #{displayState}, </if>
+            `update_time` = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--<update id="cm_i_news" parameterType="com.forwork.web.www.modules.information.entity.News">
+        UPDATE `news` SET `state` = #{state}, `commend_state` = #{commend_state}, `browses` = #{browses}, `likes` = #{likes}, `comments` = #{comments}, `score` = #{score} WHERE `id` = #{id};
+    </update>-->
+
+    <delete id="remove">
+		delete from cm_i_news where id = #{value}
+	</delete>
+
+    <!--<delete id="batchRemove">
+        delete from sys_menu where menu_id in
+        <foreach item="menuId" collection="array" open="(" separator=","
+                 close=")">
+            #{menuId}
+        </foreach>
+    </delete>-->
+
+    <!--<select id="listMenuByUserId" resultType="com.forwork.cms.modules.information.dao.NewsDao">
+		select distinct
+		m.menu_id , parent_id, name, url,
+		perms,`type`,icon,order_num,gmt_create, gmt_modified
+		from sys_menu m
+		left
+		join sys_role_menu rm on m.menu_id = rm.menu_id left join
+		sys_user_role ur
+		on rm.role_id =ur.role_id where ur.user_id = #{id}
+		and
+		m.type in(0,1)
+		order by
+		m.order_num
+	</select>
+
+    <select id="listUserPerms" resultType="string">
+		select distinct m.perms
+		from sys_menu m left join
+		sys_role_menu rm on m.menu_id = rm.menu_id
+		left join sys_user_role ur
+		on rm.role_id = ur.role_id where ur.user_id
+		= #{id}
+	</select>-->
+</mapper>

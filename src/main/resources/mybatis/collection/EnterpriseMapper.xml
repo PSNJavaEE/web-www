@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forwork.web.www.modules.collection.dao.EnterpriseDao">
+
+    <select id="get" resultType="com.forwork.web.www.modules.collection.entity.Enterprise">
+		select *
+		from ct_e_enterprise where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.forwork.web.www.modules.collection.entity.Enterprise">
+        select *
+        from ct_e_enterprise
+        <where>
+            record_state = 1
+        </where>
+        <choose>
+            <when test="createTime != null and createTime.trim() != ''">
+                order by ${createTime} desc
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="rowStart != null and pageSize != null">
+            limit ${rowStart}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from ct_e_enterprise
+        <where>
+            record_state = 1
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.forwork.web.www.modules.collection.entity.Enterprise"
+            useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `ct_e_enterprise` (`id`,`entp_name`,`entp_simple_name`,`corporation`,`entp_Industry`,`entp_phone`,`entp_address`,`main_business`,`personnel_type`,`personnel_edu`,`enclosure_url`,`entp_intro`,record_state,`create_time`,`update_time`)
+		VALUES (null,#{entpName},#{entpSimpleName},#{corporation},#{entpIndustry},#{entpPhone},#{entpAddress},#{mainBusiness},#{personnelType},#{personnelEdu},#{enclosureUrl},#{entpIntro},1,now(),now())
+	</insert>
+
+    <update id="update" parameterType="com.forwork.web.www.modules.collection.entity.Enterprise">
+        UPDATE ct_e_enterprise
+        <set>
+            <if test="recordState != null">`record_state` = #{recordState}, </if>
+            `update_time` = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--<update id="ct_e_enterprise" parameterType="com.forwork.web.www.modules.collection.entity.Enterprise">
+        UPDATE `news` SET `state` = #{state}, `commend_state` = #{commend_state}, `browses` = #{browses}, `likes` = #{likes}, `comments` = #{comments}, `score` = #{score} WHERE `id` = #{id};
+    </update>-->
+
+    <delete id="remove">
+		delete from ct_e_enterprise where id = #{value}
+	</delete>
+
+    <!--<delete id="batchRemove">
+        delete from sys_menu where menu_id in
+        <foreach item="menuId" collection="array" open="(" separator=","
+                 close=")">
+            #{menuId}
+        </foreach>
+    </delete>-->
+
+    <!--<select id="listMenuByUserId" resultType="com.forwork.cms.modules.information.dao.NewsDao">
+		select distinct
+		m.menu_id , parent_id, name, url,
+		perms,`type`,icon,order_num,gmt_create, gmt_modified
+		from sys_menu m
+		left
+		join sys_role_menu rm on m.menu_id = rm.menu_id left join
+		sys_user_role ur
+		on rm.role_id =ur.role_id where ur.user_id = #{id}
+		and
+		m.type in(0,1)
+		order by
+		m.order_num
+	</select>
+
+    <select id="listUserPerms" resultType="string">
+		select distinct m.perms
+		from sys_menu m left join
+		sys_role_menu rm on m.menu_id = rm.menu_id
+		left join sys_user_role ur
+		on rm.role_id = ur.role_id where ur.user_id
+		= #{id}
+	</select>-->
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forwork.web.www.modules.post.dao.PostDao">
+
+    <select id="get" resultType="com.forwork.web.www.modules.post.entity.Post">
+		SELECT	id,	post_name,	dept_id,dept_name,recruit_num,post_salary,req_edu,req_exp,address,req_post,post_desc,record_state,update_time,create_time
+		FROM cms_p_post where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.forwork.web.www.modules.post.entity.Post">
+        SELECT	id,	post_name,dept_id,dept_name,recruit_num,post_salary,req_edu,req_exp,address,req_post,post_desc,record_state,update_time,create_time
+        FROM cms_p_post
+        where record_state = 1
+        ORDER BY create_time
+        <if test="rowStart != null and pageSize != null">
+            limit ${rowStart}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from cms_p_post
+    </select>
+
+    <insert id="save" parameterType="com.forwork.web.www.modules.post.entity.Post"
+            useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `cms_p_post`
+		(post_name,dept_id,dept_name,recruit_num,req_exp,post_salary,req_edu,address,req_post,post_desc,record_state,update_time,create_time)
+        VALUES(#{postName},#{deptId},#{deptName},#{recruitNum},#{reqExp},#{postSalary},#{reqEdu},#{address},#{reqPost},#{postDesc},"0",NOW(),NOW())
+	</insert>
+
+    <update id="update" parameterType="com.forwork.web.www.modules.post.entity.Post">
+        UPDATE `cms_p_post`
+        <set>
+            <if test="postName != null">`post_name` = #{postName}, </if>
+            <if test="deptId != null">`dept_id` = #{deptId}, </if>
+            <if test="deptName != null">`dept_name` = #{deptName}, </if>
+            <if test="recruitNum != null">`recruit_num` = #{recruitNum}, </if>
+            <if test="reqExp != null">`req_exp` = #{reqExp}, </if>
+            <if test="postSalary != null">`post_salary` = #{postSalary}, </if>
+            <if test="reqEdu != null">`req_edu` = #{reqEdu}, </if>
+            <if test="address != null">`address` = #{address}, </if>
+            <if test="reqPost != null">`req_post` = #{reqPost}, </if>
+            <if test="postDesc != null">`post_desc` = #{postDesc}, </if>
+            <if test="recordState != null">`record_state` = #{recordState}, </if>
+            `update_time` = NOW()
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <delete id="remove">
+		delete from `cms_p_post` where id = #{id}
+	</delete>
+
+</mapper>

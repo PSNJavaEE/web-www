@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.forwork.web.www.modules.information.dao.NewsCategoryDao">
+
+    <select id="get" resultType="com.forwork.web.www.modules.information.entity.NewsCategory">
+		SELECT * FROM `cm_i_news_category` where id = #{id};
+	</select>
+
+    <select id="list" resultType="com.forwork.web.www.modules.information.entity.NewsCategory">
+        SELECT * FROM `cm_i_news_category`
+        <where>
+            state = 1
+            <if test="name != null and name != ''"> and name like #{name} </if>
+        </where>
+        <choose>
+            <when test="CREATETIME != null and CREATETIME.trim() != ''">
+                order by ${CREATETIME} desc
+            </when>
+            <when test="start != null and start gt -1">
+                limit #{start},#{end}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="rowStart != null and pageSize != null">
+            limit ${rowStart}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="listCategory" resultType="com.forwork.web.www.modules.information.entity.NewsCategory">
+        SELECT * FROM `cm_i_news_category` WHERE state = 1
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(*) FROM `cm_i_news_category`
+        WHERE state = 1
+        <!--<where>-->
+            <if test="name != null and name != ''"> and name like #{name} </if>
+        <!--</where>-->
+    </select>
+
+    <insert id="save" parameterType="com.forwork.web.www.modules.information.entity.NewsCategory"
+            useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `cm_i_news_category` (`id`, `name`, `description`, `image`, `create_time`, update_time, `state`) VALUES (null, #{name}, #{description}, #{image}, now(), now(), 1)
+	</insert>
+
+    <update id="update" parameterType="com.forwork.web.www.modules.information.entity.NewsCategory">
+        UPDATE `cm_i_news_category`
+        <set>
+            <if test="name != null">`name` = #{name}, </if>
+            <if test="description != null">`description` = #{description}, </if>
+            <if test="image != null">`image` = #{image}, </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateState" parameterType="com.forwork.web.www.modules.information.entity.NewsCategory">
+        UPDATE `cm_i_news_category` SET `state` = #{state} WHERE `id` = #{id};
+    </update>
+
+    <delete id="remove">
+		delete from cm_i_news_category where id = #{value}
+	</delete>
+
+    <!--<delete id="batchRemove">
+        delete from sys_menu where menu_id in
+        <foreach item="menuId" collection="array" open="(" separator=","
+                 close=")">
+            #{menuId}
+        </foreach>
+    </delete>-->
+
+    <!--<select id="listMenuByUserId" resultType="com.forwork.cms.modules.information.dao.NewsCategoryDao">
+		select distinct
+		m.menu_id , parent_id, name, url,
+		perms,`type`,icon,order_num,gmt_create, gmt_modified
+		from sys_menu m
+		left
+		join sys_role_menu rm on m.menu_id = rm.menu_id left join
+		sys_user_role ur
+		on rm.role_id =ur.role_id where ur.user_id = #{id}
+		and
+		m.type in(0,1)
+		order by
+		m.order_num
+	</select>
+
+    <select id="listUserPerms" resultType="string">
+		select distinct m.perms
+		from sys_menu m left join
+		sys_role_menu rm on m.menu_id = rm.menu_id
+		left join sys_user_role ur
+		on rm.role_id = ur.role_id where ur.user_id
+		= #{id}
+	</select>-->
+</mapper>

@@ -1,0 +1,49 @@
+logging:
+  level:
+    root: info
+    com.bootdo: debug   #配置日志程度
+    file: /app/logs/forwork/web-www/logs/web-www.log  #放入制定目录，生产环境日志目录
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.26.67.147:3306/forwork_serv?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: forwork_serv
+    password: forwork_serv789@)!*
+#    dbcp2:
+#      min-idle: 5
+#      initial-size: 5
+#      max-total: 5
+#      max-wait-millis: 200
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    #useGlobalDataSourceStat: true
+
+#文件上传路径配置。
+xcloud:
+    baseUrl: /app/resource
+    uploadPath: /upload/client_res/forwork/
+media:
+    save:
+      urlprefix: https://127.0.0.1:80   #图片本地访问路径
